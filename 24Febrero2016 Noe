@@ -1,0 +1,63 @@
+##ejercicio de clase 
+##Bajar la base de datos Varibales del cuentionario de ocupacion y empleo I del portal del INEGI del segundo trimestre del 2015 
+##Importar en base de datos .dbf en R
+##Seleccionar solo a las entidades..
+##Etiquetar las preguntas ¿Aproximadamente cuantas personas, incluyendo al dueño, laboran donde trabaja...?p3q
+###NO HACERLO## 1) 1 a 5 personas, 2) 6 a 10 , 3) 11 a 20, 4) 21 a 50 5) 51 y mas 
+##¿La jornada de trabajo de Estado de Mexico es..p5
+###NO HACERLO## 1... dia, 2..... noche, 3... mixto o rola turno, 4 no sabe
+##p2e
+###NO HACERLO### 1)ausente temporal, 2)pensionado o jubilado, 3)se dedica al hogar o tiene limitantes, 4) otra cosa
+##Hacer tablas expandidas de las varibales que etiquetaron con sexo....###Nuevo###
+
+library(foreign)
+require (foreign)
+### Importar la base de datos
+COE<-read.dbf("C:\\Users\\SALA-C18\\Desktop\\COE1T215.dbf")
+View(COE)### Ver la base de datos 
+
+table(COE$ENT)##Para ver la tabla de entidad cual es la de Estado de Mexico 
+
+tabla<-subset(COE, (ENT=="15")) ##Para seleccionar solo la entiedad que me toco 
+View(tabla) 
+
+##Etiquetar
+
+##Etiquetar las preguntas ¿Aproximadamente cuantas personas, incluyendo al dueño, laboran donde trabaja...?
+tabla$P3L<-ordered(tabla$P3L, levels = c("01","02","03","04","05","06","07","08","09","10","11","99"), 
+                   labels = c("1 persona","2 a 5 personas","6 a 10 personas","11 a 15 personas","16 a 20 personas","21 a 30 personas","31 a 50 personas","51 a 100 personas","101 a 250 personas","251 a 500 personas","501 y mas personas","No sabe"))
+table(tabla$P3L)
+View(table(tabla$P3L))
+
+##¿La jornada de trabajo de Estado de Mexico es..p5
+tabla$P5<-ordered(tabla$P5, levels = c("1","2","3","4","9"), 
+                   labels = c(" de día? (entre las 6 am y las 8 pm)"," de noche? (entre las 8 pm y las 6 am)","mixta?","rola turnos?"," No sabe"))
+table(tabla$P5)
+View(table(tabla$P5))
+
+## Pregunta p2e
+tabla$P2E<-ordered(tabla$P2E, levels = c("1","2","3","4","5","6","9"), 
+                  labels = c("una persona temporalmente ausente de su
+actividad u oficio?"," pensionado o jubilado de su empleo?","estudiante?","una persona que se dedica a los quehaceres de su hogar?","una persona con alguna limitación física o mental
+que le impide trabajar por el resto de su vida?","Otra condición","No sabe"))
+table(tabla$P2E)
+View(table(tabla$P2E))
+
+##Hacer tablas expandidas de las varibales que etiquetaron con sexo....###Nuevo###
+tabla$P1w<-ordered(tabla$P1, levels = c("1","2"), 
+                  labels = c("Si trabaja", "No trabaja"))
+table(tabla$P1w)
+View(table(tabla$P1w))
+
+
+install.packages("questionr")
+library(questionr)
+
+tablaE<-wtd.table(tabla$P3L,tabla$P1,weights=tabla$FAC)
+tablaE
+
+tablaA<-wtd.table(tabla$P5,tabla$P1,weights=tabla$FAC)
+tablaA
+
+tablaZ<-wtd.table(tabla$P2E,tabla$P1,weights=tabla$FAC)
+tablaZ
