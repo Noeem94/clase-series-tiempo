@@ -1,0 +1,60 @@
+###########RECODIFICAR##############
+
+##Cargar las bases de datos 
+library (foreign)
+require (foreign)
+SDEMT215<-data.frame(read.dbf("C:\\Users\\SALA-C18\\Desktop\\SDEMT215.dbf"))
+
+##METODO 1
+SDEMT215$CLASE2.1[as.numeric(SDEMT215$CLASE2)>=0& as.numeric(SDEMT215$CLASE2)<=2]<-1
+SDEMT215$CLASE2.1[as.numeric(SDEMT215$CLASE2)>=3& as.numeric(SDEMT215$CLASE2)<=4]<-2
+
+##METODO 2
+attach(SDEMT215)
+SDEMT215$CLASE2.2 <- ifelse(as.numeric(CLASE2) >= 1 & as.numeric(CLASE2)<=2,1,
+                          ifelse(as.numeric(CLASE2) >= 3 & as.numeric(CLASE2) <=3,2,3))
+detach(SDEMT215)
+
+#4.1.1Comparacion de los tres metodos
+install.packages(questionr)
+table(SDEMT215$CLASE2.1)
+require(questionr)
+wtd.table(SDEMT215$CLASE2.1)
+wtd.table(SDEMT215$CLASE2.2)
+
+table (SDEMT215$EDAD11)
+############EJERCICIO RECODIFICAR VARIABLE EDAD###########
+##0 A 14= 1 NIÑOS, 15 A 29= 2 JOVENES, 30 A 59= 3 ADULTOS, 60 A 97= 4 ADULTOS MAYORES, 98 Y 99= 5 NO ESPECIFICADO
+###pOR LOS DOS METODOS...
+### DEPUES ETIQUETRAN LOS GRUPOS
+### COMPARAR METODOS #####
+
+##Resolviendo el ejercicio 
+##METODO 1
+attach(SDEMT215)
+SDEMT215$EDA<-as.numeric(as.character(SDEMT215$EDA))
+
+SDEMT215$EDA1[as.numeric(SDEMT215$EDA)>=0& as.numeric(SDEMT215$EDA)<=14]<-1
+SDEMT215$EDA1[as.numeric(SDEMT215$EDA)>=15& as.numeric(SDEMT215$EDA)<=29]<-2
+SDEMT215$EDA1[as.numeric(SDEMT215$EDA)>=30& as.numeric(SDEMT215$EDA)<=59]<-3
+SDEMT215$EDA1[as.numeric(SDEMT215$EDA)>=60& as.numeric(SDEMT215$EDA)< 97]<-4
+SDEMT215$EDA1[as.numeric(SDEMT215$EDA)>=98& as.numeric(SDEMT215$EDA)<=99]<-5
+#detach(SDEMT215)
+require(questionr)
+wtd.table(SDEMT215$EDA1)
+table(SDEMT215$EDA1)
+
+##METODO 2
+attach(SDEMT215)
+SDEMT215$EDA12<- ifelse(as.numeric(EDA) >= 1 & as.numeric(EDA)<=15,1,
+                            ifelse(as.numeric(EDA) >= 16 & as.numeric(EDA) <=30,2,
+                            ifelse(as.numeric(EDA) >= 31 & as.numeric(EDA) <=60,3, 
+                            ifelse(as.numeric(EDA) >= 61 & as.numeric(EDA) <=98,4,5))))
+detach(SDEMT215)
+table(SDEMT215$EDA12)
+
+###ETIQUETRAN LOS GRUPOS
+tablaEDA1<-ordered(SDEMT215$EDA1, levels = c(1,2,3,4,5), 
+                   labels = c("NIÑOS","jOVENES","ADULTOS","ADULTOS MAYORES","NO ESPECIFICADO"))
+table(tablaEDA1)
+View(table(tablaEDA1))
