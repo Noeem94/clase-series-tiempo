@@ -1,0 +1,35 @@
+help (AirPassengers)
+data("AirPassengers")
+panam<-(AirPassengers) 
+class(panam)
+start(panam); end(panam); frequency (panam) ##Tres elementos esenciales de la Serie de Tiempo
+panam
+### Ejemplo de como crear una base de ST.........pap<- ts(base1,star=c(1998,1),freq=4)### Funcion para declarar 
+ts()##3 Funcion para declarar una base de datos como Series de Tiempo
+layout (1:2)
+plot (panam) ##Graficar la ST
+plot(panam, ylab= "Pasajeros (miles)", xlab= "Años", main= "Numero de pasajeros aereos en Estados Unidos 1949,1960")
+###La Linea anteror es para ponerle etiquetas a la grafica
+plot (aggregate(panam)) ### Combierne la grafica en linea de tendencia
+
+###Ejercicio
+###1)Generar un data frame con la tasa de desocupacion que inicia en el primer trimestre del 2005
+###Tasa de Desocuapacion 3.4, 4.8, 3.3, 5.6, 3.2, 2.9, 1.9, 2.8, 6.0, 4.3, 2.2
+###2)Convertir en serie de tiempo y graficar la ST y la tendencia
+###****Punto extra librarla del segundo examen....
+###3) Obtener un pdf, jpg, tiff, png con las dos graficas en una misma imagen
+###Subirlo a github martes 8 de marzo antes de las 11.59hrs.....
+tri<-c("1 Trim", "2 Trim", "3 Trim", "4 Trim")
+td<-c(3.4, 4.8, 3.3, 5.6, 3.2, 2.9, 1.9, 2.8, 6.0, 4.3, 2.2, NA)
+año<-c(2005,2006,2007)
+series<- expand.grid(Año=año,Trimestre=tri)
+serie<- cbind(series, count=td)
+serie<- tapply(serie$count,serie[,1:2],sum)
+serie
+serie.des<-ts(td,start=c(2005,1),freq=4)
+serie.des
+jpeg("Graficas.jpg")###Para convertir las graficas a imagen y guarda en documento en imagenes 
+layout (1:2)
+plot(serie.des, main="Tasa de desocupacion")
+plot (aggregate(serie.des))
+dev.off()
