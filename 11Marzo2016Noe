@@ -1,0 +1,35 @@
+###1. Simulacion de series de tiempo###
+###Vamos a simular 1 indicador para la simulacion en principio necesitamos alguna informacion valor
+###maximo, minimo, el numero de datos 
+###En este ejemplo vamos a proponer la poblacion en Mexico que el valor minimo seran 100, max 120, 
+###15 datos que inicie en 2000
+pob<-sample(100:120, 15, replace=F)
+###La convertimos en series de teimpo
+pobts<-ts(pob, frequency=1, start=(2000))
+plot (pobts)### darle formato
+plot(aggregate(pobts), xlab="Años", ylab="Poblacion (Miles)",main="Poblacion de Mexico (Tendencia)")
+###Tendencias para determinar la tendencia de una ST se utiliza la función aggregate(), en la que se puede
+###interpretar la tendencia mediante la grafica, plot(aggregate())
+##El modelo mas simple para una tendencia es un aumento o disminucion lineal 
+
+###Bajar del Inegi la ocupacion de las personas.......
+###Importar CSV
+Ocupa<-ts(read.csv(("C:\\Users\\SALA-C29\\Desktop\\Ocupa.csv"),header=F),  frequency=4, start=2005); ##El header=F es para indicarle que la primer celda de exel no es titulo sino que es un dato y lo tome como tal 
+plot(Ocupa)### Darle formato
+plot(aggregate(Ocupa))##Darle formato
+plot(aggregate(Ocupa), xlab="Años", ylab="Porcentaje",main="Poblacion Ocupada")
+##Ejercicio########
+###Simular 
+###Tasa desocupada 3 a 8 , 2005, 40 datos, trimestras 
+###Bajar del INEGI la tasa de desocupacion, importar en R, y comparar simulacion con INEGI
+Desocupados<-sample(3:8,40, replace=TRUE)
+desocuts<-ts(Desocupados, frequency=4,start=2005)
+plot(desocuts, xlab="Años", ylab="Poblacion (Miles)",main="Poblacion Desocupada")
+plot(aggregate(desocuts), xlab="Años", ylab="Poblacion (Miles)",main="Poblacion Desocupada")
+###Importar CSV
+desocup<-ts(read.csv(("C:\\Users\\SALA-C29\\Desktop\\Desoc.csv"),header=F),  frequency=4, start=2005); ##El header=F es para indicarle que la primer celda de exel no es titulo sino que es un dato y lo tome como tal 
+plot(desocup)### Darle formato
+plot(aggregate(desocup))##Darle formato
+plot(aggregate(desocup), xlab="Años", ylab="Porcentaje",main="Poblacion Ocupada")
+plot(cbind(SIMULACION=desocuts,INEGI=desocup),xlab="Años", ylab="Poblacion (Miles)",main="Poblacion Desocupada")###darle formato a la grafica
+
