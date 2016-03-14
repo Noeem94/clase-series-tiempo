@@ -1,0 +1,41 @@
+#### Clase 14 de Marzo 
+indi3<-ts(read.csv(("C:\\Users\\SALA-C18\\Desktop\\INEGI.csv"),header=T),  frequency=4, start=2005)
+class(indi3)
+desoparcial<-ts(indi3[,1], start=2005,freq=4)##### Es para hacer mi columna a serie de tiempo, en estre caso que comience en 2005 y que la frecuencia sea 4 
+asala<-ts (indi3[,2],start=2005,freq=4)
+til1<-ts(indi3[,3], start=2005,freq=4)
+seriemultiple<-ts.intersect(desoparcial,asala,til1)##Serie de tiempo multiple con las 4 variables
+plot(seriemultiple,main="Series de tiempo multiple",xlab="Años",ylab="Numero de personas",col="salmon")###GRaficar serie de tiempo multiple 
+###Separando la serie de tiempo dependiendo del analisi
+seriemultiple05.09<-window(seriemultiple,start=c(2005,1),end=c(2009,4))
+seriemultiple10.15<-window(seriemultiple,start=c(2010,1),end=c(2015,4))
+###Graficar
+plot (seriemultiple05.09,main="Serie de tiempo multiple",xlab="Años",ylab="Numero de personas",col="Green")
+plot (seriemultiple10.15,main="Serie de tiempo multiple",xlab="Años",ylab="Numero de personas",col="orange")
+start(seriemultiple); end (seriemultiple)
+
+###Ejercicio Busacr una serie de tiempo de un tema de intere!!!!
+###1)Importatr la base
+###2)Declararlas series de tiempo
+###3)Graficar las variables separadas
+###4)Crear serie de tiempo multiple...
+
+
+######Ejercicio de la Poblacion Economicamente NO Activa!!!!########
+
+pena<-ts(read.csv(("C:\\Users\\SALA-C18\\Desktop\\POBLA.csv"),header=T),  frequency=4, start=2005)
+class(pena)
+Disponible<-ts(pena[,1], start=2005,freq=4)##### Es para hacer mi columna a serie de tiempo, en estre caso que comience en 2005 y que la frecuencia sea 4 
+NoDisponible<-ts (pena[,2],start=2005,freq=4)
+seriemultiple<-ts.intersect(Disponible,NoDisponible)
+plot(seriemultiple,main="Series de tiempo multiple",xlab="Años",ylab="Numero de personas",col="Green")
+seriemultiple1<-window(seriemultiple,start=c(2005,1),end=c(2008,4))
+seriemultiple2<-window(seriemultiple,start=c(2010,1),end=c(2015,4))
+plot (seriemultiple1,main="Serie de tiempo multiple",xlab="Años",ylab="Numero de personas",col="Green")
+plot (seriemultiple2,main="Serie de tiempo multiple",xlab="Años",ylab="Numero de personas",col="orange")
+start(seriemultiple); end (seriemultiple)
+
+###Noé Espíndola Moreno
+###Daniel Muñoz Aguirre
+### Rodrigo Ruiz Gonzalez
+###Sinaid Sanchez Anzures
