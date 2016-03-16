@@ -1,0 +1,56 @@
+###TRABAJO EN CLASE DE SERIES DE TIEMPO CON SERGIO :
+###Generar 4 objetos con datos aleatorios y que tengan 60 datos
+### dato 1 de n?mero de profesionista (mill)rango de 5 a 8
+### dato 2 crec pib rango de 0 a 5
+### dato 3 porcentaje de ocupados rango de 40 a 60
+### dato 4 porcentaje de desocupados rango de 3 a 8
+#### 1) una vez que generen los datos hacer un data frame de los 4 objetos
+#### 2) mostrar en consola los primeros 12 y ultimos 12 datos
+#### 3) convertir los objetos en series de tiempo desde el data frame comezando en 2010 y son datos mensuales
+#### 4) graficar los profesionistas y ocupados en la misma imagen
+#### 5) graficar pib y desocupados en la misma imagen
+#### 6) graficar todas juntas
+### 7) creaR serie de tiempo multiple!!!!8
+#### 8 ) graficar serie de tiempo multiple 
+#### 9 ) dividir serie de tiempo y graficar solo el ultimo año...
+#### 10) analizar las graficas ( si hay alguna tendencia o variacion estacional) (investigar)
+
+###Generar las variables aleatorias
+mill<-sample(5:8,60, replace=T)
+pib<-sample(0:5,60, replace=T)
+ocupa<-sample(40:60,60, replace=T)
+desocupa<-sample(3:8,60, replace=T)
+#### 1)Una vez que generen los datos hacer un data frame de los 4 objetos
+tabla<-data.frame(mill,pib,ocupa,desocupa)
+tabla
+#### 2)Mostrar en consola los primeros 12 y ultimos 12 datos
+tabla1<-tabla[c(1:12,49:60),]
+tabla1
+#### 3)Convertir los objetos en series de tiempo desde el data frame comezando en 2010 y son datos mensuales
+tabla2<-ts(tabla,start=2010, frequency =12)
+tabla2
+#### 4)Graficar los profesionistas y ocupados en la misma imagen
+layout(1:2)
+plot(tabla2[,3],main="Tasa Ocupados",xlab="Años",ylab="Porcentaje de Desocupados",col="Green")
+plot(tabla2[,1],main="Num. de Profesionistas",xlab="Años",ylab="Porcentaje de Desocupados", col="Blue")
+#### 5)Graficar pib y desocupados en la misma imagen
+layout(1:2)
+plot(tabla2[,2],main="PIB",xlab="Años",ylab="Porcentaje",col="pink")
+plot(tabla2[,4],main="% Desocupados",xlab="Años",ylab="Porcentaje", col="orange")
+### 7)CreaR serie de tiempo multiple!!!
+Mill1<-ts(tabla2[,1],start=2010,frequency = 12)
+Pib1<-ts(tabla2[,2],start=2010,frequency = 12)
+Ocupa1<-ts(tabla2[,3],start=2010,frequency = 12)
+Desocupa<-ts(tabla2[,4],start=2010,frequency = 12)
+seriemultiple<-ts.intersect(Mill1,Pib1,Ocupa1,Desocupa)
+#### 6)Graficar todas juntas y 8 )Graficar serie de tiempo multiple 
+plot(seriemultiple,main="Serie Multiple",xlab="Año",col="Green")
+#### 9)Dividir serie de tiempo y graficar solo el ultimo año...
+seriemultiple14<-window(seriemultiple,start=c(2014,1),end=c(2014,12))
+seriemultiple14
+plot(seriemultiple14,main="Serie Multiple",xlab="Año",col="orange")
+#### 10)Analizar las graficas ( si hay alguna tendencia o variacion estacional) (investigar)
+#No hay tendencia estacional ya que por definicion se dice que existe un tendencia estacional cuando 
+#la variación periódica y predecible es la misma con un periodo inferior o igual a un año, y por lo 
+#que podemos ver en la grafica los datos son variables en el periodo de un año, y esto es debido a que los 
+#datos fueron elegidos de manera aleatoria.
