@@ -1,0 +1,50 @@
+#####
+
+ICA<-ts(read.csv(("C:\\Users\\SALA-C24\\Desktop\\acciones.csv"),header = T),frequency = 252,start = 2000)
+#Descomponer serie de tiempo
+icaadi<-decompose(ICA) ##Obtenemos el modelo aditivo
+plot(decompose(ICA))
+plot(icaadi)
+icaadi
+names(icaadi)
+###Ahora para el modelo multiplicativo
+ticaadia<-decompose(ICA,type = "mult")
+names(ticaadia)
+icaadi$type
+tendad<-icaadi$trend
+esta<-icaadi$seasonal
+alea<-icaadi$random
+icaadi2<-data.frame(tendad,esta,alea)
+ts.plot(cbind(tendad,tendad*esta),lty=6:15,col=c("green","salmon"))
+tendmult<-ticaadia$trend
+help(decompose)
+ticaadia
+
+#################################EJERCIO################################################################
+###Con las bases de desocupacion, TCCO,ASALARIADOS,TIL1,
+###Para el modelo aditivo
+GRUMA<-ts(read.csv(("C:\\Users\\SALA-C24\\Desktop\\gruma.csv"),header = T),frequency = 252,start = 2000)
+grumdes<-decompose(GRUMA)## OBTENIENDO EL MOEDELO ADITIVO
+plot(decompose(GRUMA),ylab=c("Aleatorierdad","Estacionalidad","Tendencia","Xt"),xlab="Años",col="blue")
+ten<-grumdes$trend
+est<-grumdes$seasonal
+al<-grumdes$random
+base<-data.frame(ten,est,al)
+ts.plot(cbind(ten,ten*est),lty=6:15,col=c("blue","red"),main="Tendencia de cotizaciones Gruma",xlab="Años",ylab="Precio")
+
+####Modelo Multiplicativo
+grumdes2<-decompose(GRUMA,type = "mult")## OBTENIENDO EL MOEDELO ADITIVO
+plot(grumdes2,ylab=c("Aleatorierdad","Estacionalidad","Tendencia","Xt"),xlab="Años",col="blue")
+ten2<-grumdes$trend
+est2<-grumdes$seasonal
+al2<-grumdes$random
+base2<-data.frame(ten,est,al)
+ts.plot(cbind(ten2,ten2*est2),lty=6:15,col=c("blue","red"),main="Tendencia Gruma",xlab="Años",ylab="Precio")
+##creando el Libro de Excel
+library(XLConnect)
+wb<-loadWorkbook("C:\\Users\\SALA-C24\\Desktop\\GRUMAS.XLS",create = TRUE)
+createSheet(wb,name="aDITIVO")
+writeWorksheet(wb,base,"ADITIVO",startRow = 1,startCol =2,header = TRUE )
+createSheet(wb,name="MULT")
+writeWorksheet(wb,base2,"MULT",startRow = 1,startCol =2,header = TRUE )
+saveWorkbook(wb)
