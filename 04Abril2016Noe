@@ -1,0 +1,36 @@
+###########################################################################################################
+                                              ##Ejercicio 
+#1)Aanalizar los años de las tres empresas elegidas(seasonplot) y elegir los tres años que ubiquen con estacionalidad,
+#ciclo o tendencia....
+#Interpretar estos 3 años
+#2)Calcular con la formula y la funcion de covarianza y correlacion en la combinacion 
+#de las 3 empresas, es decir empresa 1=x, empresa 2= y y empresa 3= z, Calcular la correlacion
+#de cor(x,y), cor(y,z) y cor(x,z) para hacerlas "compatibles" utilicen el window 
+
+###################### SOLUCION EJERCICIO
+cemx <- read.csv ("C:\\Users\\SALA-C31\\Desktop\\cemx.csv", header = T)
+cemxts <- ts(cemx[,5], start = 2000, frequency = 12)
+femsa <- read.csv ("F:"C:\\Users\\SALA-C31\\Desktop\\femsa.csv", header = T)
+femsats <- ts(femsa[,5], start = 2000, frequency = 12)
+bimbo <- read.csv ("F:"C:\\Users\\SALA-C31\\Desktop\\cocamx.csv", header = T)
+bimbots <- ts(coca[,5], start = 2000, frequency = 12)
+  
+#1)
+seasonplot(cemxts,s= 12, year.labels=TRUE,
+main="V acciones cemex",
+ylab="V cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+  
+seasonplot(femsats,s= 12, year.labels=TRUE,
+main="V acciones FEMSA",
+ylab="V cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+
+seasonplot(bimbots,s= 12, year.labels=TRUE,
+main="V acciones BIMBO",
+ylab="V cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+
+#2) 
+x <- cemxts
+y <- femsats
+z <- bimbots
+cor(x,y)
+cor(y,z)cor(x,z)
