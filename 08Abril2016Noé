@@ -1,0 +1,43 @@
+#######Examen############################Lunes 18#####################
+# 2 Partes
+##1) Generar uds un script(en la computadora)
+##2) Yo les entrego un script y les digo en que lineas expliquen o realicen comentarios (en papel)
+
+##Estructura del Examen##########
+#1)Manejo de base de datos en R
+ #1.1)Exportar bases, etiquetar, generar una base de datos, recodificar, seleccionar casos, graficar
+#2)Series de tiempoi en R
+ #2.1)Declarar una ST, dividis st, graficar ST, interpretar graficas con estacionalidad, tendencia y ciclo 
+ #2.2)Como determinar estacionalidad en una st con la funcion de 
+      #autocorrelacion, calculo de correlacion y covarianza.....
+#####################Lunes 18#####################
+
+#Funcion de autocorrelacion##
+#La autocorrelacion mide la correlacion entre dos variables
+#separadas por k periodos, propiedades de la autocorrelacion 
+#P0=1
+#-1<= P0<=1
+#simetria Pj=pj-1
+
+install.packages("fpp")
+require(fpp)
+Acf(beer)##Funcion para conocer la autocorrelacion de los datos 
+xx<-Acf (beer,main="ACF of quartely beer production")
+names (xx)
+#Results for first 9 lags for beer data:
+xx$acf
+
+
+##########netflix##############################
+nexf<-read.csv (("C:\\Users\\SALA-C31\\Desktop\\nex.csv"),header=T)
+nexfs<-ts(nexf[,5],start=2015,frequency=12)
+plot.ts(nexfs)
+Acf(nexfs)
+xx<-Acf(nexfs,main="ACF of quartely beer production")
+xx$acf
+
+
+Ejemplo
+fc<-rwf(dj)
+res<-residuals(fc)
+plot(res)
