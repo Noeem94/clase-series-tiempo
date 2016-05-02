@@ -1,0 +1,39 @@
+cremx<.read.csv("/home/sgr/Desktop/Crecimiento Mexico 1896-2015.csv")
+cremxts<- ts(pib[,2],start=1896,end=2013)
+cremx1950<-window(cremmxts,start=(1950), end=c(2013))
+polt(cremxts1950)
+
+require(fpp)
+plot(cremx1950, main="tasa de crecimiento pib en Mexico 1950-2013", 
+     ylab="tasa de crecimiento",xlab="años")
+res2<-residuals(snaive(cremx1950))
+res3<-residuals(rwf(cremx1950,drif=T))
+res3
+res2
+plot(res2,main="Residuals de ingenuo estacional",
+     ylab="residuals",xlab="años")#para saber si la varianza es constante
+Acf(res2,main="ACF de residuals")#para saber si hay o no correlacion entre los residuos
+hist(res2,main="Histograma residuales")#para conocer si los residuois se distribuyen normal 
+
+plot(res3,main="Residuals de deriva",
+     ylab="residuals",xlab="años") 
+Acf(res3,main="ACF de residuals")
+hist(res3,nclass="FD", main="Histograma residuales")
+
+#### 3 Hacer analisis de residuos con el metodo de la media y el ingenuo#####                                                                            
+##INGENUO
+plot(res1, main="residuals de ingenuo ", 
+     ylab="residuales", xlab="años")
+Acf(res1, main="ACF de residuales")
+hist(res1, nclass="FD", main="histograma residuales")
+
+##MEDIA
+Acf (cremex1961)
+#meanf (deso, h)
+media <- meanf (cremex1961, 3)
+plot (media)
+summary(media)
+
+
+Box.test(res1,lag=10,fitdf=0)
+Box.test(res1,lag=10,fitdf=0,type="Lj")
