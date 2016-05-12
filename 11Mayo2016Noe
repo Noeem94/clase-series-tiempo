@@ -1,0 +1,96 @@
+install.packages("forecast")
+install.packages("fpp")
+require(forecast)
+require(fpp)
+labo<- read.csv("C:\\Users\\SALA-C24.RTIC-C24-HP.000\\Desktop\\Deso.csv", header= TRUE)
+deso<- ts(labo[,2],start=2005, frequency = 4)
+mod1 <- ses(deso,alpha=0.2, initial= "simple", h=4)
+mod2 <- ses(deso,alpha=0.6,initial="simple",h=4)
+mod3 <- ses(deso,alpha=1,initial="simple",h=4)
+plot(mod1,plot.conf=F, ylab="descupa",
+     xlab="Year",main="",fcol="white",type="o")
+
+#########Graficando los Ajustes###(valores qu el modelo calcularia desde el inicio)
+lines(fitted(mod1),col="green", type="o")
+lines(fitted(mod2),col="red", type="o")
+lines(fitted(mod1),col="blue", type="o")
+
+########Graficano la Media del Pronostico####
+lines((mod1$mean),col="green", type="o")
+lines((mod2$mean),col="red", type="o")
+lines((mod3$mean),col="blue", type="o")
+legend("topright",lty=1,col=c(1,"blue","red","green"),
+       c("data",expression(alpha==0.2),expression(alpha==0.6),
+         expression(alpha==1)),pch=10)
+
+names(mod1)
+aju1<-mod1$fitted
+aju2<-mod2$fitted
+aju3<-mod3$fitted
+
+resmod1<-(deso-ajus1)
+resmod2<-(deso-ajus2)
+resmod3<-(deso-ajus3)
+mod123<-data.frame(deso,ajus1,ajus2,ajus3,resmod1,resmod2,resmod3)
+View(mod123)
+res1<-(resmod1-mod1$residuals)
+res2<-(resmod2-mod2$residuals)
+res3<-(resmod3-mod3$residuals)
+res1
+
+
+####Ejercicio####
+#Elegir 2 series de tiempo sin tendencia ni estacionalidad
+#Serie 1 Alpha=.1,.6 y .9
+#Serie 2 Alpha= .0001, .5, .987
+#Graficar las series de tiempo
+#Calcular el MAE, RMSE,MAPE y SSE
+#Decir en cada una de las series cual SES ocuparian con base en los MAE, RMSE, MAPE y SSE
+#Argumenta por que ustedes creen que es mejor utilizar un alpha 
+#Cercano a 0 o cercano a 1
+#El script subanlo a github y la grafica y la argumentacion enviarlo por word...
+des<- read.csv("C:\\Users\\SALAC-32\\Desktop\\Deso.csv", header= TRUE)
+deso<- ts(des[,2],start=2005, frequency =4)
+part<- ts(des[,1],start=2005, frequency =4)
+
+library(foreign)
+require(forecast)
+base1<-read.csv("C:\\Users\\Emmanuel\\Downloads\\enoe.csv",header = T)
+ocu<-ts(base1[,1],start = 2005,frequency = 4)
+asal<-ts(base1[,4],start = 2005,frequency = 4)
+#####PRIMER SERIE
+mod1.1<-ses(ocu,alpha = 0.1,initial = "simple",h=4)
+mod2.1<-ses(ocu,alpha = 0.6,initial = "simple",h=4)
+mod3.1<-ses(ocu,alpha = .9,initial = "simple",h=4)
+plot(mod1.1,plot.conf=FALSE,ylab="Tasa de ocupación",xlab="Año",main="",fcol="white",type="o")
+lines(fitted(mod1.1),col="blue",type="o")
+lines(fitted(mod2.1),col="red",type="o")
+lines(fitted(mod3.1),col="green",type="o")
+lines((mod1.1$mean),col="blue",type="o")
+lines((mod2.1$mean),col="red",type="o")
+lines((mod3.1$mean),col="green",type="o")
+legend("topright",lty=1,col=c(1,"blue","red","green"),c("data",expression(alpha==0.1),expression(alpha==0.6),expression(alpha==.9)),pch=10)
+eval1<-accuracy(mod1.1)
+eval2<-accuracy(mod2.1)
+eval3<-accuracy(mod3.1)
+eval1
+eval2
+eval3
+#####SEGUNDA SERIE
+mod1.2<-ses(asal,alpha = 0.1,initial = "simple",h=4)
+mod2.2<-ses(asal,alpha = 0.6,initial = "simple",h=4)
+mod3.2<-ses(asal,alpha = .9,initial = "simple",h=4)
+plot(mod1.2,plot.conf=FALSE,ylab="Desocupa",xlab="Year",main="",fcol="white",type="o")
+lines(fitted(mod1.2),col="blue",type="o")
+lines(fitted(mod2.2),col="red",type="o")
+lines(fitted(mod3.2),col="green",type="o")
+lines((mod1.2$mean),col="blue",type="o")
+lines((mod2.2$mean),col="red",type="o")
+lines((mod3.2$mean),col="green",type="o")
+legend("topright",lty=1,col=c(1,"blue","red","green"),c("data",expression(alpha==0.1),expression(alpha==0.6),expression(alpha==.9)),pch=10)
+eval1.2<-accuracy(mod1.2)
+eval2.2<-accuracy(mod2.2)
+eval3.2<-accuracy(mod3.2)
+eval1.2
+eval2.2
+eval3.2
