@@ -1,0 +1,48 @@
+library(foregein)
+library(fpp)
+#SERIE CON TENDENCIA A LA ALZA
+PIB<-read.csv("C:\\Users\\MacNoe\\Desktop\\PIB.csv",header=T)
+PIBts<-ts(PIB[,2],start=1993,frequency=4)
+ajustehl<-holt(PIBts,h=10)
+ajustehe<-holt(PIBts,exponential = T,h=10)
+ajuste_adit<-holt(PIBts,dumped=T,h=10)
+ajuste_mult<-holt(PIBts,exponential = T,dump=T,h=10)
+plot(PIBts,ylab="Precio",xlab="Año",main="PIB trimestral 1995-2015",col="black")
+lines(fitted(ajustehl),col="blue")
+lines(fitted(ajustehe),col="red")
+lines(fitted(ajuste_adit),col="green")
+lines(fitted(ajuste_mult),col="deepskyblue4")
+legend("topleft",lty=1,col=c(1,"blue","red","green","deepskyblue4"),c("data","H Lineal","H. Exp","H. Aditivo","H. Multiplicativo"),pch=10)
+eval1<-accuracy(ajustehl)
+eval2<-accuracy(ajustehe)
+eval3<-accuracy(ajuste_adit)
+eval4<-accuracy(ajuste_mult)
+eval1
+eval2
+eval3
+eval4
+
+#SERIE CON TENDENCIA A LA BAJA
+IBM<-read.csv(("C:\\Users\\MacNoe\\Desktop\\SERIE2.csv",header = T)
+IBMts<-ts(IBM[,2],start=2008,frequency=4)
+ajustehl.1<-holt(IBMts,h=10)
+ajustehe.1<-holt(IBMts,exponential = T,h=10)
+ajuste_adit.1<-holt(IBMts,dumped=T,h=10)
+ajuste_mult.1<-holt(IBMts,exponential = T,dump=T,h=10)
+plot(IBMts,ylab="Precio",xlab="Año",main="Precio acciones IBM (2008-2015)",col="black")
+lines(fitted(ajustehl.1),col="blue")
+lines(fitted(ajustehe.1),col="red")
+lines(fitted(ajuste_adit.1),col="green")
+lines(fitted(ajuste_mult.1),col="deepskyblue4")
+legend("topright",lty=1,col=c(1,"blue","red","green","deepskyblue4"),c("data","H Lineal","H. Exp","H. Aditivo","H. Multiplicativo"),pch=10)
+####Me falta serie descendene
+####Pronosticar 4 periodos
+eval1.1<-accuracy(ajustehl.1)
+eval2.1<-accuracy(ajustehe.1)
+eval3.1<-accuracy(ajuste_adit.1)
+eval4.1<-accuracy(ajuste_mult.1)
+eval1.1
+eval2.1
+eval3.1
+eval4.1
+
