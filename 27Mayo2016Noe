@@ -1,0 +1,48 @@
+#Despues de usar la funcion auto arima..
+#Analisis de residuales (correlograma y pruba manteau test)
+#Si la prueba de los residuales sugiere que hay ruido blanco..Se procede a prosnosticar
+#Mod1<-auto.arima(des,seasonal=F)
+#>forecast(mod1)
+
+M1#Modelo autorregresivo con una diferenciacion 
+forecast(M1)
+#Mean es el  pronostico 
+#fitted es el ajuste 
+
+
+#EJERCICIO#
+#1)Elijan 1 serie de tiempo
+#2)Apliquen la funcion auto.arima()
+#3)Apliquen funcion Arima(p,d,q) con dos modelos diferentes al que genere la funcion auto.arima
+#3.1)Generar los pronosticos de los 3 modelos 
+#4)Generar grafica con los valores reales y los valores ajustados de los 3 modelos 
+#5)Generar grafica con los valores reales y los valores ajustados y pronosticados en lso 3 modelos
+#numero de pronosticos-4
+library (fpp)
+Pib<-read.csv("C:\\Users\\SALAC-31\\Desktop\\PIB.csv",header=T)
+Pibs<-ts(Pib[,2],start=1993, frequency=4)
+M1<-auto.arima(Pibs,seasonal=F)
+M2<-Arima(Pibs,order = c(3,1,0))
+M3<-Arima(Pibs,order = c(1,0,0))
+M4<-Arima(Pibs,order = c(0,0,1))
+M1.1<-forecast(M1,h=4)
+M2.1<-forecast(M2,h=4)
+M3.1<-forecast(M3,h=4)
+names(M1.1)
+plot(Pibs,ylab="Precio",xlab="Año",main="PIB real vs Mod Ajustados",col="green",type="o")
+lines(fitted(M1),col="blue",type="o")
+lines(fitted(M2),col="red",type="o")
+lines(fitted(M3),col="green",type="o")
+legend("topleft",lty=1,col=c(1,"blue","red","green"),c("D. Reales","Auto Arima","Mod 2","Mod 3"),pch=10)
+
+plot(Pibs,ylab="Precio",xlab="Año",main="PIB real vs Pronóstico",col="black",type="o")
+lines(fitted(M1),col="blue",type="o")
+lines(fitted(M2),col="red",type="o")
+lines(fitted(M3),col="green",type="o")
+lines(M1.1$mean,col="blue",type="o")
+lines(M2.1$mean,col="red",type="o")
+lines(M3.1$mean,col="green",type="o")
+legend("topleft",lty=1,col=c(1,"blue","red","green"),c("D. Reales","Auto Arima","Mod 2","Mod3"),pch=10)
+
+
+
